@@ -8,6 +8,10 @@ import lombok.ToString;
 import javax.json.*;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -20,12 +24,15 @@ import java.util.stream.Collectors;
 @ToString
 @Entity
 public class Metadata {
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss:SSS");
+
     public static final class NAMED_QUERIES {
         public static final String FIND_ALL = "Metadata.findAll";
     }
 
     public static final class JSON_KEYS {
         public static final String ID = "id";
+        public static final String CREATION = "creation";
         public static final String LABELS = "labels";
         public static final String PAYLOAD = "payload";
     }
@@ -33,6 +40,7 @@ public class Metadata {
     @Id
     @Setter
     private String id;
+    private LocalDateTime creation;
     @OneToMany(cascade = CascadeType.ALL)
     private Map<String, StringValue> labels;
     @OneToMany(cascade = CascadeType.ALL)
@@ -43,11 +51,13 @@ public class Metadata {
                 .add(JSON_KEYS.ID, id)
                 .add(JSON_KEYS.LABELS, labelsAsJson())
                 .add(JSON_KEYS.PAYLOAD, payloadAsJson())
+                .add(JSON_KEYS.CREATION, creation.format(formatter))
                 .build();
     }
 
     public Metadata(JsonObject asJson) {
         this.id = UUID.randomUUID().toString();
+        this.creation = LocalDateTime.now();
         this.labels = asJson.getJsonObject(JSON_KEYS.LABELS)
                 .entrySet()
                 .stream()
@@ -56,7 +66,6 @@ public class Metadata {
                 .entrySet()
                 .stream()
                 .collect(Collectors.toMap(e -> e.getKey(), e -> new PropertyValue(toJavaType(e.getValue()))));
-        System.out.println("this = " + this);
     }
 
     public Serializable toJavaType(JsonValue value) {
@@ -68,6 +77,13 @@ public class Metadata {
             return false;
         } else if (value.getValueType() == JsonValue.ValueType.TRUE) {
             return true;
+        } else if (value.getValueType() == JsonValue.ValueType.ARRAY) {
+            JsonArray jsonArray = value.asJsonArray();
+            return (Serializable) Arrays.asList(jsonArray.toArray())
+                    .stream()
+                    .map(obj -> (Serializable) toJavaType((JsonValue) obj))
+                    .filter(obj -> obj instanceof Serializable)
+                    .collect(Collectors.toList());
         } else {
             throw new IllegalArgumentException(value.getValueType() + " is not implemented yet!");
         }
