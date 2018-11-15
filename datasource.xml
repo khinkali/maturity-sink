@@ -1,0 +1,22 @@
+<dataSource id="DefaultDataSource"
+            jndiName="jdbc/sample"
+            jdbcDriverRef="postgresql-driver"
+            type="javax.sql.ConnectionPoolDataSource"
+            transactional="true">
+
+    <properties serverName="sink-db"
+                portNumber="5432"
+                databaseName="postgres"
+                user="postgres"
+                password="postgres"/>
+</dataSource>
+
+<jdbcDriver id="postgresql-driver"
+            javax.sql.XADataSource="org.postgresql.xa.PGXADataSource"
+            javax.sql.ConnectionPoolDataSource="org.postgresql.ds.PGConnectionPoolDataSource"
+            libraryRef="postgresql-library"/>
+
+<library id="postgresql-library">
+<fileset id="PostgreSQLFileset" dir="/opt/wlp/lib"
+         includes="postgresql-42.2.5.jar"/>
+</library>
