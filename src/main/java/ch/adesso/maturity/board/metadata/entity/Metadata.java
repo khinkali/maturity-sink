@@ -16,9 +16,10 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@NamedQueries(
-        @NamedQuery(name = Metadata.NAMED_QUERIES.FIND_ALL, query = "SELECT m FROM Metadata m")
-)
+@NamedQueries({
+        @NamedQuery(name = Metadata.NAMED_QUERIES.FIND_ALL, query = "SELECT m FROM Metadata m"),
+        @NamedQuery(name = Metadata.NAMED_QUERIES.FIND_BY_TEAM, query = "SELECT m FROM Metadata m WHERE m.team.id = :teamId")
+})
 @NoArgsConstructor
 @Getter
 @ToString
@@ -28,6 +29,7 @@ public class Metadata {
 
     public static final class NAMED_QUERIES {
         public static final String FIND_ALL = "Metadata.findAll";
+        public static final String FIND_BY_TEAM = "Metadata.findByTeam";
     }
 
     public static final class JSON_KEYS {
@@ -36,6 +38,10 @@ public class Metadata {
         public static final String LABELS = "labels";
         public static final String PAYLOAD = "payload";
         public static final String TEAM = "team";
+    }
+
+    public static final class LABEL_KEYS {
+        public static final String SERVICE = "service";
     }
 
     @Id
@@ -47,6 +53,12 @@ public class Metadata {
     private Map<String, StringValue> labels;
     @OneToMany(cascade = CascadeType.ALL)
     private Map<String, PropertyValue> payload;
+
+    public String getService() {
+        return this.labels
+                .get(LABEL_KEYS.SERVICE)
+                .getValue();
+    }
 
     public JsonObject toJson() {
         return Json.createObjectBuilder()
