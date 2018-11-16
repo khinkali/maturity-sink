@@ -103,7 +103,12 @@ public class Metadata {
 
     public Metadata(JsonObject asJson, Team team) {
         this.id = UUID.randomUUID().toString();
-        this.creation = LocalDateTime.now();
+        String creation = asJson.getString("creation", null);
+        if (creation != null) {
+            this.creation = LocalDateTime.parse(creation, formatter);
+        } else {
+            this.creation = LocalDateTime.now();
+        }
         this.labels = asJson.getJsonObject(JSON_KEYS.LABELS)
                 .entrySet()
                 .stream()

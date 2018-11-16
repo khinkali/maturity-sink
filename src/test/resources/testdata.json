@@ -1,0 +1,133 @@
+[
+  {
+    "labels": {
+      "stage": "checkout & unit tests & builds",
+      "service": "sink",
+      "execution-step": "git-clone",
+      "version": "0.5.26"
+    },
+    "payload": {
+      "commits-of-current-tag": "bb0fe77",
+      "time-in-ms": 18045
+    },
+    "team": "~TEAM~",
+    "creation": "2018-11-15 20:30:55:236"
+  },
+  {
+    "labels": {
+      "stage": "checkout & unit tests & builds",
+      "service": "sink",
+      "execution-step": "maven clean package",
+      "version": "0.5.26"
+    },
+    "payload": {
+      "time-in-ms": 28045
+    },
+    "team": "~TEAM~",
+    "creation": "2018-11-15 20:32:14:236"
+  },
+  {
+    "labels": {
+      "stage": "checkout & unit tests & builds",
+      "service": "sink",
+      "execution-step": "record junit tests",
+      "version": "0.5.26"
+    },
+    "payload": {
+      "time-in-ms": 8045
+    },
+    "team": "~TEAM~",
+    "creation": "2018-11-15 20:38:33:236"
+  },
+  {
+    "labels": {
+      "stage": "vulnerability check for java libraries",
+      "service": "sink",
+      "execution-step": "maven audit",
+      "version": "0.5.26"
+    },
+    "payload": {
+      "time-in-ms": 38045
+    },
+    "team": "~TEAM~",
+    "creation": "2018-11-15 20:42:49:236"
+  },
+  {
+    "labels": {
+      "stage": "build image & git tag & docker push",
+      "service": "sink",
+      "execution-step": "maven set version",
+      "version": "0.5.26"
+    },
+    "payload": {
+      "time-in-ms": 138045
+    },
+    "team": "~TEAM~",
+    "creation": "2018-11-15 20:44:14:236"
+  },
+  {
+    "labels": {
+      "stage": "build image & git tag & docker push",
+      "service": "sink",
+      "execution-step": "git push tags",
+      "version": "0.5.26"
+    },
+    "payload": {
+      "time-in-ms": 13045
+    },
+    "team": "~TEAM~",
+    "creation": "2018-11-15 20:47:38:236"
+  },
+  {
+    "labels": {
+      "stage": "build image & git tag & docker push",
+      "service": "sink",
+      "execution-step": "docker build",
+      "version": "0.5.26"
+    },
+    "payload": {
+      "time-in-ms": 3045
+    },
+    "team": "~TEAM~",
+    "creation": "2018-11-15 20:51:12:236"
+  },
+  {
+    "labels": {
+      "stage": "build image & git tag & docker push",
+      "service": "sink",
+      "execution-step": "docker login",
+      "version": "0.5.26"
+    },
+    "payload": {
+      "time-in-ms": 345
+    },
+    "team": "~TEAM~",
+    "creation": "2018-11-15 20:51:12:236"
+  },
+  {
+    "labels": {
+      "stage": "build image & git tag & docker push",
+      "service": "sink",
+      "execution-step": "docker push",
+      "version": "0.5.26"
+    },
+    "payload": {
+      "time-in-ms": 45
+    },
+    "team": "~TEAM~",
+    "creation": "2018-11-15 20:52:22:236"
+  },
+  {
+    "labels": {
+      "stage": "go to prod",
+      "service": "sink",
+      "execution-step": "kubernetes deploy to prod",
+      "version": "0.5.26"
+    },
+    "payload": {
+      "time-in-ms": 4500
+    },
+    "team": "~TEAM~",
+    "creation": "2018-11-19 11:52:22:236"
+  }
+]
