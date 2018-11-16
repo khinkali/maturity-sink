@@ -42,6 +42,13 @@ public class Metadata {
 
     public static final class LABEL_KEYS {
         public static final String SERVICE = "service";
+        public static final String VERSION = "version";
+        public static final String STAGE = "stage";
+        public static final String EXECUTION_STEP = "execution-step";
+    }
+
+    public static final class PAYLOAD_KEYS {
+        public static final String TIME_IN_MS = "time-in-ms";
     }
 
     @Id
@@ -53,6 +60,30 @@ public class Metadata {
     private Map<String, StringValue> labels;
     @OneToMany(cascade = CascadeType.ALL)
     private Map<String, PropertyValue> payload;
+
+    public Long getTimeInMs() {
+        return ((Double) this.payload
+                .get(PAYLOAD_KEYS.TIME_IN_MS)
+                .getValue()).longValue();
+    }
+
+    public String getExecutionStep() {
+        return this.labels
+                .get(LABEL_KEYS.EXECUTION_STEP)
+                .getValue();
+    }
+
+    public String getStage() {
+        return this.labels
+                .get(LABEL_KEYS.STAGE)
+                .getValue();
+    }
+
+    public String getVersion() {
+        return this.labels
+                .get(LABEL_KEYS.VERSION)
+                .getValue();
+    }
 
     public String getService() {
         return this.labels

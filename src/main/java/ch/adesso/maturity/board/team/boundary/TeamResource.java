@@ -1,8 +1,12 @@
 package ch.adesso.maturity.board.team.boundary;
 
+import ch.adesso.maturity.board.maturity.boundary.MaturityCalculator;
+import ch.adesso.maturity.board.maturity.entity.Service;
 import ch.adesso.maturity.board.team.entity.Team;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.stream.JsonCollectors;
@@ -23,6 +27,9 @@ public class TeamResource {
 
     @Context
     UriInfo uriinfo;
+
+    @Inject
+    MaturityCalculator calculator;
 
     @GET
     public JsonArray getTeams() {
@@ -55,5 +62,15 @@ public class TeamResource {
     public Response delete(@PathParam("id") String id) {
         em.remove(em.find(Team.class, id));
         return Response.noContent().build();
+    }
+
+    @Path("{id}/maxLeadTime")
+    @GET
+    public JsonObject getMaxLeadTime(@PathParam("id") String teamId) {
+        Service maxLeadTime = calculator.getMaxLeadTime(teamId);
+        return Json.createObjectBuilder()
+                .add("maxLeadTime", maxLeadTime.getMaxLeadTimeInMs())
+                .add("service", maxLeadTime.getName())
+                .build();
     }
 }

@@ -20,6 +20,9 @@ public class MetadataIT {
     public MetadataClient metadataClient = new MetadataClient();
     @Rule
     public TeamClient teamClient = new TeamClient();
+    @Rule
+    public MaturityClient maturityClient = new MaturityClient();
+
     private static URI firstMetadata;
     private static JsonObject teamA;
 
@@ -72,5 +75,11 @@ public class MetadataIT {
         assertThat(data.getString("creation"), is(notNullValue()));
         assertThat(data.getString("id"), is(notNullValue()));
         assertThat(data.getString("team"), is(teamA.getString("id")));
+    }
+
+    @Test
+    public void a40_shouldCalculateTheMaxLeadTime() {
+        JsonObject maxLeadTime = maturityClient.retrieveMaxLeadTime(teamA.getString("id"));
+        System.out.println("maxLeadTime = " + maxLeadTime);
     }
 }
