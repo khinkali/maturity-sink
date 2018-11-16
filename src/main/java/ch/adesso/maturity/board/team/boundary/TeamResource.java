@@ -1,6 +1,5 @@
-package ch.adesso.maturity.board.metadata.boundary;
+package ch.adesso.maturity.board.team.boundary;
 
-import ch.adesso.maturity.board.metadata.entity.Metadata;
 import ch.adesso.maturity.board.team.entity.Team;
 
 import javax.ejb.Stateless;
@@ -11,15 +10,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 
 @Stateless
-@Produces(MediaType.APPLICATION_JSON)
-@Path("metadata")
-public class MetadataResource {
+@Path("teams")
+public class TeamResource {
 
     @PersistenceContext
     EntityManager em;
@@ -28,39 +25,35 @@ public class MetadataResource {
     UriInfo uriinfo;
 
     @GET
-    public JsonArray retrieveMetadata() {
-        return em.createNamedQuery(Metadata.NAMED_QUERIES.FIND_ALL, Metadata.class)
+    public JsonArray getTeams() {
+        return em.createNamedQuery(Team.NAMED_QUERIES.FIND_ALL, Team.class)
                 .getResultList()
                 .stream()
-                .map(Metadata::toJson)
+                .map(t -> t.toJson())
                 .collect(JsonCollectors.toJsonArray());
     }
 
     @POST
-    public Response createMetadata(JsonObject dataAsJson) {
-        String teamId = dataAsJson.getString(Metadata.JSON_KEYS.TEAM);
-        Team team = em.find(Team.class, teamId);
-        Metadata data = new Metadata(dataAsJson, team);
-        em.merge(data);
+    public Response create(JsonObject teamAsJson) {
+        Team team = new Team(teamAsJson);
+        em.merge(team);
         URI uri = uriinfo.getBaseUriBuilder()
-                .path(MetadataResource.class)
+                .path(TeamResource.class)
                 .path("{id}")
-                .build(data.getId());
+                .build(team.getId());
         return Response.created(uri).build();
     }
 
     @GET
     @Path("{id}")
-    public JsonObject retrieveMetadata(@PathParam("id") String id) {
-        return em.find(Metadata.class, id)
-                .toJson();
+    public JsonObject get(@PathParam("id") String id) {
+        return em.find(Team.class, id).toJson();
     }
 
     @DELETE
     @Path("{id}")
     public Response delete(@PathParam("id") String id) {
-        em.remove(em.find(Metadata.class, id));
+        em.remove(em.find(Team.class, id));
         return Response.noContent().build();
     }
-
 }

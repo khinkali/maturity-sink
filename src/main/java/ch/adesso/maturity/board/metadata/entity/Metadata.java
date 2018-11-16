@@ -1,5 +1,6 @@
 package ch.adesso.maturity.board.metadata.entity;
 
+import ch.adesso.maturity.board.team.entity.Team;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -34,12 +35,14 @@ public class Metadata {
         public static final String CREATION = "creation";
         public static final String LABELS = "labels";
         public static final String PAYLOAD = "payload";
+        public static final String TEAM = "team";
     }
 
     @Id
     @Setter
     private String id;
     private LocalDateTime creation;
+    private Team team;
     @OneToMany(cascade = CascadeType.ALL)
     private Map<String, StringValue> labels;
     @OneToMany(cascade = CascadeType.ALL)
@@ -51,10 +54,11 @@ public class Metadata {
                 .add(JSON_KEYS.LABELS, labelsAsJson())
                 .add(JSON_KEYS.PAYLOAD, payloadAsJson())
                 .add(JSON_KEYS.CREATION, creation.format(formatter))
+                .add(JSON_KEYS.TEAM, team.getId())
                 .build();
     }
 
-    public Metadata(JsonObject asJson) {
+    public Metadata(JsonObject asJson, Team team) {
         this.id = UUID.randomUUID().toString();
         this.creation = LocalDateTime.now();
         this.labels = asJson.getJsonObject(JSON_KEYS.LABELS)
@@ -65,6 +69,7 @@ public class Metadata {
                 .entrySet()
                 .stream()
                 .collect(Collectors.toMap(e -> e.getKey(), e -> new PropertyValue(toJavaType(e.getValue()))));
+        this.team = team;
     }
 
     public Serializable toJavaType(JsonValue value) {
