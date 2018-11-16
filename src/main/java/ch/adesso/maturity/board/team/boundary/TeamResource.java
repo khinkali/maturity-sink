@@ -68,9 +68,15 @@ public class TeamResource {
     @GET
     public JsonObject getMaxLeadTime(@PathParam("id") String teamId) {
         Service maxLeadTime = calculator.getMaxLeadTime(teamId);
+        JsonArray versions = maxLeadTime.getVersions()
+                .stream()
+                .map(version -> Json.createObjectBuilder().add("version", version.getName()).add("leadTimeInMs", version.getLeadTimeInMs()).build())
+                .collect(JsonCollectors.toJsonArray());
+
         return Json.createObjectBuilder()
                 .add("maxLeadTime", maxLeadTime.getMaxLeadTimeInMs())
                 .add("service", maxLeadTime.getName())
+                .add("versions", versions)
                 .build();
     }
 }
