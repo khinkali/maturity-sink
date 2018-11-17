@@ -1,5 +1,6 @@
 package ch.adesso.maturity.board.devops_maturity.entity;
 
+import ch.adesso.maturity.board.Maturity;
 import ch.adesso.maturity.board.maturity.entity.Service;
 import ch.adesso.maturity.board.team.entity.Team;
 
@@ -9,7 +10,7 @@ import javax.json.stream.JsonCollectors;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DevOpsMaturity {
+public class DevOps {
     private final String id;
     private final String name;
     private final Team team;
@@ -22,12 +23,13 @@ public class DevOpsMaturity {
         public static final String MATURITIES = "maturities";
     }
 
-    public DevOpsMaturity(Team team, Service maxLeadTime) {
+    public DevOps(Team team, Service maxLeadTime, Service maxCycleTime) {
         this.id = "devops";
         this.name = "DevOps Maturity";
         this.team = team;
         this.maturities = new ArrayList<>();
-        this.maturities.add(new MaxLeadTimeMaturity(maxLeadTime));
+        this.maturities.add(new MaxLeadTime(maxLeadTime));
+        this.maturities.add(new MaxCycleTime(maxCycleTime));
     }
 
     public JsonObject toJson() {

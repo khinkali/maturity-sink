@@ -1,11 +1,12 @@
 package ch.adesso.maturity.board.devops_maturity.entity;
 
+import ch.adesso.maturity.board.Maturity;
 import ch.adesso.maturity.board.maturity.entity.Service;
 
 import javax.json.Json;
 import javax.json.JsonObject;
 
-public class MaxLeadTimeMaturity implements Maturity {
+public class MaxLeadTime implements Maturity {
     private final String name;
     private final Long maxLeadTimeInMs;
     private final Service maxLeadTime;
@@ -16,7 +17,7 @@ public class MaxLeadTimeMaturity implements Maturity {
         public static final String MAX_LEAD_TIME = "maxLeadTime";
     }
 
-    public MaxLeadTimeMaturity(Service maxLeadTime) {
+    public MaxLeadTime(Service maxLeadTime) {
         this.name = "Maximum Lead Time";
         this.maxLeadTimeInMs = 2 * 24 * 60 * 60 * 1_000L;
         this.maxLeadTime = maxLeadTime;

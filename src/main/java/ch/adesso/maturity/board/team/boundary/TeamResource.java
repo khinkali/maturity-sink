@@ -1,6 +1,6 @@
 package ch.adesso.maturity.board.team.boundary;
 
-import ch.adesso.maturity.board.devops_maturity.entity.DevOpsMaturity;
+import ch.adesso.maturity.board.devops_maturity.entity.DevOps;
 import ch.adesso.maturity.board.maturity.boundary.MaturityCalculator;
 import ch.adesso.maturity.board.team.entity.Team;
 
@@ -67,9 +67,9 @@ public class TeamResource {
     @Path("{id}/maturities")
     @GET
     public JsonArray getMaturities(@PathParam("id") String teamId) {
-        DevOpsMaturity devOpsMaturity = calculator.getDevOpsMaturity(teamId);
+        DevOps devOps = calculator.getDevOpsMaturity(teamId);
         return Json.createArrayBuilder()
-                .add(devOpsMaturity.toJson())
+                .add(devOps.toJson())
                 .build();
     }
 }

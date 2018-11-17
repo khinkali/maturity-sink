@@ -1,4 +1,4 @@
-package ch.adesso.maturity.board.devops_maturity.entity;
+package ch.adesso.maturity.board;
 
 import javax.json.JsonObject;
 

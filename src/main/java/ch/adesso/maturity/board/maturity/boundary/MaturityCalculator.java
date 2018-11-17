@@ -1,6 +1,6 @@
 package ch.adesso.maturity.board.maturity.boundary;
 
-import ch.adesso.maturity.board.devops_maturity.entity.DevOpsMaturity;
+import ch.adesso.maturity.board.devops_maturity.entity.DevOps;
 import ch.adesso.maturity.board.maturity.entity.Service;
 import ch.adesso.maturity.board.metadata.entity.Metadata;
 import ch.adesso.maturity.board.team.entity.Team;
@@ -36,9 +36,9 @@ public class MaturityCalculator {
         return services;
     }
 
-    public DevOpsMaturity getDevOpsMaturity(String teamId) {
+    public DevOps getDevOpsMaturity(String teamId) {
         Team team = em.find(Team.class, teamId);
-        return new DevOpsMaturity(team, getMaxLeadTime(teamId));
+        return new DevOps(team, getMaxLeadTime(teamId), getMaxCycleTime(teamId));
     }
 
     public Service getMaxLeadTime(String teamId) {
@@ -48,7 +48,7 @@ public class MaturityCalculator {
                 .get();
     }
 
-    public Service getCycleTime(String teamId) {
+    public Service getMaxCycleTime(String teamId) {
         return getServices(teamId)
                 .stream()
                 .max(Comparator.comparing(Service::getMaxCycleTimeInMs))
