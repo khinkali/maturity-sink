@@ -93,7 +93,7 @@ public class MetadataIT {
 
     @Test
     public void a50_shouldCalculateTheMaxLeadTime() {
-        JsonObject maxLeadTime = maturityClient.retrieveMaxLeadTime(teamA.getString("id"));
+        JsonArray maxLeadTime = maturityClient.retrieveMaxLeadTime(teamA.getString("id"));
         System.out.println("maxLeadTime = " + maxLeadTime);
     }
 

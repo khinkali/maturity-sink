@@ -2,7 +2,7 @@ package ch.adesso.maturity.board.metadata;
 
 import org.junit.rules.ExternalResource;
 
-import javax.json.JsonObject;
+import javax.json.JsonArray;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
@@ -23,13 +23,13 @@ public class MaturityClient extends ExternalResource {
         baseTarget = client.target("http://localhost:9080/sink/resources/teams");
     }
 
-    public JsonObject retrieveMaxLeadTime(String teamId) {
+    public JsonArray retrieveMaxLeadTime(String teamId) {
         Response response = baseTarget
                 .path(teamId)
-                .path("maxLeadTime")
+                .path("maturities")
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .get();
         assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
-        return response.readEntity(JsonObject.class);
+        return response.readEntity(JsonArray.class);
     }
 }

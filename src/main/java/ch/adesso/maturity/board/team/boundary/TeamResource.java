@@ -1,7 +1,7 @@
 package ch.adesso.maturity.board.team.boundary;
 
+import ch.adesso.maturity.board.devops_maturity.entity.DevOpsMaturity;
 import ch.adesso.maturity.board.maturity.boundary.MaturityCalculator;
-import ch.adesso.maturity.board.maturity.entity.Service;
 import ch.adesso.maturity.board.team.entity.Team;
 
 import javax.ejb.Stateless;
@@ -64,19 +64,12 @@ public class TeamResource {
         return Response.noContent().build();
     }
 
-    @Path("{id}/maxLeadTime")
+    @Path("{id}/maturities")
     @GET
-    public JsonObject getMaxLeadTime(@PathParam("id") String teamId) {
-        Service maxLeadTime = calculator.getMaxLeadTime(teamId);
-        JsonArray versions = maxLeadTime.getVersions()
-                .stream()
-                .map(version -> Json.createObjectBuilder().add("version", version.getName()).add("leadTimeInMs", version.getLeadTimeInMs()).build())
-                .collect(JsonCollectors.toJsonArray());
-
-        return Json.createObjectBuilder()
-                .add("maxLeadTime", maxLeadTime.getMaxLeadTimeInMs())
-                .add("service", maxLeadTime.getName())
-                .add("versions", versions)
+    public JsonArray getMaturities(@PathParam("id") String teamId) {
+        DevOpsMaturity devOpsMaturity = calculator.getDevOpsMaturity(teamId);
+        return Json.createArrayBuilder()
+                .add(devOpsMaturity.toJson())
                 .build();
     }
 }

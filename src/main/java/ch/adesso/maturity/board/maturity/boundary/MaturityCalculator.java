@@ -1,7 +1,9 @@
 package ch.adesso.maturity.board.maturity.boundary;
 
+import ch.adesso.maturity.board.devops_maturity.entity.DevOpsMaturity;
 import ch.adesso.maturity.board.maturity.entity.Service;
 import ch.adesso.maturity.board.metadata.entity.Metadata;
+import ch.adesso.maturity.board.team.entity.Team;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -19,8 +21,6 @@ public class MaturityCalculator {
                 .setParameter("teamId", teamId)
                 .getResultList();
 
-        System.out.println("metadataByTeam = " + metadataByTeam);
-
         Map<String, List<Metadata>> metadataByService = new HashMap<>();
         for (Metadata data : metadataByTeam) {
             String service = data.getService();
@@ -34,6 +34,11 @@ public class MaturityCalculator {
             services.add(new Service(service, metadataByService.get(service)));
         }
         return services;
+    }
+
+    public DevOpsMaturity getDevOpsMaturity(String teamId) {
+        Team team = em.find(Team.class, teamId);
+        return new DevOpsMaturity(team, getMaxLeadTime(teamId));
     }
 
     public Service getMaxLeadTime(String teamId) {

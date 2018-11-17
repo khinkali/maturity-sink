@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @ToString
 @Entity
 public class Metadata {
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss:SSS");
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss:SSS");
 
     public static final class NAMED_QUERIES {
         public static final String FIND_ALL = "Metadata.findAll";
@@ -96,7 +96,7 @@ public class Metadata {
                 .add(JSON_KEYS.ID, id)
                 .add(JSON_KEYS.LABELS, labelsAsJson())
                 .add(JSON_KEYS.PAYLOAD, payloadAsJson())
-                .add(JSON_KEYS.CREATION, creation.format(formatter))
+                .add(JSON_KEYS.CREATION, creation.format(FORMATTER))
                 .add(JSON_KEYS.TEAM, team.getId())
                 .build();
     }
@@ -105,7 +105,7 @@ public class Metadata {
         this.id = UUID.randomUUID().toString();
         String creation = asJson.getString("creation", null);
         if (creation != null) {
-            this.creation = LocalDateTime.parse(creation, formatter);
+            this.creation = LocalDateTime.parse(creation, FORMATTER);
         } else {
             this.creation = LocalDateTime.now();
         }
