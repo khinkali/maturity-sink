@@ -38,13 +38,23 @@ public class MaturityCalculator {
 
     public DevOps getDevOpsMaturity(String teamId) {
         Team team = em.find(Team.class, teamId);
-        return new DevOps(team, getMaxLeadTime(teamId), getMaxCycleTime(teamId));
+        return new DevOps(team,
+                getMaxLeadTime(teamId),
+                getMaxCycleTime(teamId),
+                getMinEfficiency(teamId));
     }
 
     public Service getMaxLeadTime(String teamId) {
         return getServices(teamId)
                 .stream()
                 .max(Comparator.comparing(Service::getMaxLeadTimeInMs))
+                .get();
+    }
+
+    public Service getMinEfficiency(String teamId) {
+        return getServices(teamId)
+                .stream()
+                .min(Comparator.comparing(Service::getMinEfficiency))
                 .get();
     }
 

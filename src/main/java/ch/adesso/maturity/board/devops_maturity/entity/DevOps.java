@@ -23,13 +23,17 @@ public class DevOps {
         public static final String MATURITIES = "maturities";
     }
 
-    public DevOps(Team team, Service maxLeadTime, Service maxCycleTime) {
+    public DevOps(Team team,
+                  Service maxLeadTime,
+                  Service maxCycleTime,
+                  Service efficiency) {
         this.id = "devops";
         this.name = "DevOps Maturity";
         this.team = team;
         this.maturities = new ArrayList<>();
         this.maturities.add(new MaxLeadTime(maxLeadTime));
         this.maturities.add(new MaxCycleTime(maxCycleTime));
+        this.maturities.add(new Efficiency(efficiency));
     }
 
     public JsonObject toJson() {

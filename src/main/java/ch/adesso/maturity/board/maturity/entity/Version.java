@@ -70,6 +70,10 @@ public class Version {
         return getStartTime().until(getEndTime(), ChronoUnit.MILLIS);
     }
 
+    public Double getEfficiency() {
+        return getCycleTimeInMs().doubleValue() / getLeadTimeInMs().doubleValue();
+    }
+
     public JsonObject toJson() {
         return Json.createObjectBuilder()
                 .add(JSON_KEYS.NAME, this.name)

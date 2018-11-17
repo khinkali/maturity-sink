@@ -17,6 +17,7 @@ public class Service {
         public static final String NAME = "name";
         public static final String MAX_CYCLE_TIME_IN_MS = "maxCycleTimeInMs";
         public static final String MAX_LEAD_TIME_IN_MS = "maxLeadTimeInMs";
+        public static final String MIN_EFFICIENCY = "minEfficiency";
         public static final String VERSIONS = "versions";
     }
 
@@ -50,11 +51,19 @@ public class Service {
                 .get();
     }
 
+    public Double getMinEfficiency() {
+        return versions.stream()
+                .map(Version::getEfficiency)
+                .min(Comparator.comparing(Double::valueOf))
+                .get();
+    }
+
     public JsonObject toJson() {
         return Json.createObjectBuilder()
                 .add(JSON_KEYS.NAME, this.name)
                 .add(JSON_KEYS.MAX_CYCLE_TIME_IN_MS, getMaxCycleTimeInMs())
                 .add(JSON_KEYS.MAX_LEAD_TIME_IN_MS, getMaxLeadTimeInMs())
+                .add(JSON_KEYS.MIN_EFFICIENCY, getMinEfficiency())
                 .add(JSON_KEYS.VERSIONS, this.versions.stream()
                         .map(Version::toJson)
                         .collect(JsonCollectors.toJsonArray()))
