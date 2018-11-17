@@ -21,6 +21,7 @@ public class Version {
         public static final String END = "end";
         public static final String CYCLE_TIME_IN_MS = "cycleTimeInMs";
         public static final String LEAD_TIME_IN_MS = "leadTimeInMs";
+        public static final String EFFICIENCY = "efficiency";
         public static final String STAGES = "stages";
     }
 
@@ -81,6 +82,7 @@ public class Version {
                 .add(JSON_KEYS.END, getEnd().toJson())
                 .add(JSON_KEYS.CYCLE_TIME_IN_MS, getCycleTimeInMs())
                 .add(JSON_KEYS.LEAD_TIME_IN_MS, getLeadTimeInMs())
+                .add(JSON_KEYS.EFFICIENCY, getEfficiency())
                 .add(JSON_KEYS.STAGES, this.stages.stream()
                         .map(Stage::toJson)
                         .collect(JsonCollectors.toJsonArray()))
