@@ -16,7 +16,7 @@ public class Efficiency implements Maturity {
         public static final String ID = "id";
         public static final String NAME = "name";
         public static final String MIN_EFFICIENCY = "minEfficiency";
-        public static final String MIN_EFFICIENCY_SERVICE = "minEfficiencyService";
+        public static final String MIN_EFFICIENCY_SERVICE = "service";
     }
 
     public Efficiency(Service minEfficencyService) {

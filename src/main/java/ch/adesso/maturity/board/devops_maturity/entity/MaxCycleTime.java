@@ -16,7 +16,7 @@ public class MaxCycleTime implements Maturity {
         public static final String ID = "id";
         public static final String NAME = "name";
         public static final String MAX_CYCLE_TIME_IN_MS = "maxCycleTimeInMs";
-        public static final String MAX_CYCLE_TIME = "maxCycleTime";
+        public static final String MAX_CYCLE_TIME = "service";
     }
 
     public MaxCycleTime(Service maxCycleTime) {

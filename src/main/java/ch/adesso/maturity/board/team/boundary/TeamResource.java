@@ -3,6 +3,7 @@ package ch.adesso.maturity.board.team.boundary;
 import ch.adesso.maturity.board.devops_maturity.entity.DevOps;
 import ch.adesso.maturity.board.maturity.boundary.MaturityCalculator;
 import ch.adesso.maturity.board.team.entity.Team;
+import org.eclipse.microprofile.metrics.annotation.Metered;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -19,7 +20,7 @@ import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 
 @Stateless
-@Path("teams")
+@Path("/teams")
 public class TeamResource {
 
     @PersistenceContext
@@ -31,6 +32,7 @@ public class TeamResource {
     @Inject
     MaturityCalculator calculator;
 
+    @Metered
     @GET
     public JsonArray getTeams() {
         return em.createNamedQuery(Team.NAMED_QUERIES.FIND_ALL, Team.class)

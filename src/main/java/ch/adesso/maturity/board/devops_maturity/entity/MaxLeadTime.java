@@ -16,7 +16,7 @@ public class MaxLeadTime implements Maturity {
         public static final String ID = "id";
         public static final String NAME = "name";
         public static final String MAX_LEAD_TIME_IN_MS = "maxLeadTimeInMs";
-        public static final String MAX_LEAD_TIME = "maxLeadTime";
+        public static final String MAX_LEAD_TIME = "service";
     }
 
     public MaxLeadTime(Service maxLeadTime) {
