@@ -125,6 +125,8 @@ public class Metadata {
             return ((JsonString) value).getString();
         } else if (value.getValueType() == JsonValue.ValueType.NUMBER) {
             return ((JsonNumber) value).doubleValue();
+        } else if (value.getValueType() == JsonValue.ValueType.NULL) {
+            return null;
         } else if (value.getValueType() == JsonValue.ValueType.FALSE) {
             return false;
         } else if (value.getValueType() == JsonValue.ValueType.TRUE) {
