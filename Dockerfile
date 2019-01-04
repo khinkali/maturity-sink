@@ -1,4 +1,4 @@
-FROM robertbrem/openliberty:18.0.0.4
+FROM robertbrem/openliberty:19.0.0.1-cl190120190104-1300
 
 COPY datasource.xml .
 RUN sed -i.bak '/<server description="OpenLiberty Server">/r datasource.xml' $CONFIG_DIR/server.xml
