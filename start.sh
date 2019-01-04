@@ -12,4 +12,4 @@ docker run -d \
   -p $PORT:9080 \
   robertbrem/maturitysink:$1
 
- docker logs -f $NAME
+docker logs -f $NAME
